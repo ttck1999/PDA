@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+		<title>低值产品使用</title>
+		
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/toastr.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/pagination.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/page/diZhi.css" type="text/css" charset="utf-8" />
+		
+		<script type="text/javascript" src="../js/rem.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/pagination.min.js"></script>
+		
+		<script type="text/javascript" src="../js/pathUrl.js"></script>
+		<script type="text/javascript" src="../js/page/diZhi.js"></script>
+		<script type="text/javascript" src="../js/toastr.js"></script>
+		<script type="text/javascript" src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js"></script>
+
+		
+		<style>
+			.paginationjs .paginationjs-pages li.active>a {
+				background: #1070BA;
+			}
+			.M-box1{
+				margin-top:10px;
+			}
+		</style>
+	</head>
+	<body  style="background: #FAFAFA;">
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">低值产品使用</div>
+		</header>
+		<div class="diZhi-all">
+			<div class="tops"></div>
+			<div class="diZhi-parent" style="margin-top: 10px;">
+				<span class="diZhi-parent-name">医院名称：</span>
+				<span class="hospName" id="hospName"></span>
+			</div>
+			<div class="diZhi-parent" style="margin-top: 10px;">
+				<span class="diZhi-parent-name">科室名称：</span>
+				<button id='deptPicker' class="mui-btn mui-btn-block" type='button'></button>
+			</div>
+			<div class="diZhi-parent">
+				<span class="diZhi-parent-name">使用情况：</span>
+				<button id='userPicker' class="mui-btn mui-btn-block" type='button'></button>
+				<span class="diZhi-parent-name">患者信息：</span>
+				<input class="diZhi-parent-code" id="patientInfo" type="text">
+				
+			</div>
+			<div class="diZhi-parent" style="margin-top: 10px;">
+				<span class="diZhi-parent-name">使用数量：</span>
+				<input class="diZhi-parent-code" id="useNum" type="text">
+				<span class="diZhi-parent-name">贴码标签：</span>
+				<input class="diZhi-parent-code" style="margin-top: 10px;" id="scanCode" type="text" >
+			</div>
+			<div class="diZhi-parent" style="margin-top: 30px;text-align: center;">
+				<span class="diZhi-parent-searchs" onclick="seatchInfo()">确定</span>
+				<span class="diZhi-parent-searchs diZhi-parent-close" onclick="cancles()">关闭</span>
+			</div>
+			
+		</div>
+	</body>
+	<script>
+		var deptList = new Array(),deptListOri =new Array();
+		(function($, doc) {
+			$.init();
+			$.ready(function() {
+				// 科室名称
+				mui.ajax(pathUrl()+'/spd-sys/admin/spd/spdWhSerial/relDeptInfo',{
+					beforeSend: function(request) {
+					    request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+					},
+					type:"post",
+					dataType:'json',
+					success:function(data) {
+						for(var i=0;i<data.length;i++){
+							deptList.push(data[i].deptName)
+							deptListOri.push(data[i])
+						}
+						//科室名称
+						var deptPicker = new $.PopPicker();
+						 deptPicker.setData(deptList);
+						
+						var deptPickerButton = doc.getElementById('deptPicker');
+						deptPickerButton.innerText = deptList[0];
+						deptPickerButton.addEventListener('tap', function(event) {
+							 deptPicker.show(function(items) {
+							
+								deptPickerButton.innerText = items[0];
+							});
+						}, false);
+					},
+					error:function() {
+						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+							toastr.warning('失败!')
+						}
+					}
+				})
+				
+				// 使用类型
+				var userList = ['正常使用','报损']
+				var userPicker = new $.PopPicker();
+				userPicker.setData(userList);
+				
+				var userPickerButton = doc.getElementById('userPicker');
+				var patientInfoButton = doc.getElementById('patientInfo');
+				userPickerButton.innerText = userList[0];
+				
+				userPickerButton.addEventListener('tap', function(event) {
+					 userPicker.show(function(items) {
+						userPickerButton.innerText = items[0];
+						if(userPickerButton.innerText == "正常使用"){
+							 patientInfoButton.removeAttribute('disabled') 
+						}else if (userPickerButton.innerText == "报损"){
+							patientInfoButton.setAttribute('disabled', 'disabled')
+						}
+					});
+				}, false);
+			})
+		})(mui, document);
+	</script>
+</html>

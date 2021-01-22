@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+    <title>登录</title>
+	<link rel="stylesheet" href="css/page/index.css" type="text/css" charset="utf-8" />
+	<link rel="stylesheet" href="css/toastr.min.css" type="text/css" charset="utf-8" />
+	<script type="text/javascript" src="js/rem.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/toastr.js"></script>
+	<script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="js/page/index.js"></script>
+	<script type="text/javascript" src="js/pathUrl.js"></script>
+    <script type="text/javascript">
+    	
+   		document.addEventListener('plusready', function(){
+   			//console.log("所有plus api都应该在此事件发生后调用，否则会出现plus is undefined。")
+   			
+   		});
+   		
+    </script>
+</head>
+<body>
+	<div class="login_one">
+		 <form id="jvForm" name="jvForm"  style="height: 100%;" onsubmit="return false"> 
+			<div class="login_right">
+				<div class="login_titles">
+					<img src="./imgs/logo.png" style="background-size: cover;width: 100%;">
+				</div>
+				<div class="login_title">
+					SPD<span>院内管理系统</span>
+				</div>
+				<div class="login_name">
+					<span class="iconss">
+						<img src="./imgs/users.png" style="margin-top: 0.1rem;background-size: cover;width: 17px;">
+					</span>
+					<input type="text" id="useraccount" name="useraccount" onblur="remUser()"  maxlength="100" class="input" />
+					<div style="clear: both;"></div>
+				</div>
+				<div class="login_tips">
+					<span>用户名不能为空</span>
+				</div>
+				
+				<div class="login_name">
+					<span class="iconss">
+						<img src="./imgs/pwd.png" style="margin-top: 0.1rem;background-size: cover;width: 20px;">
+					</span>
+					<input name="password"  type="password" id="password"  onblur="remPsw()"  maxlength="32" class="input" />
+					<div style="clear: both;"></div>
+				</div>
+				<div class="login_tips">
+					<span>密码不能为空</span>
+				</div>
+				
+				<div class="login_subs">
+					<button  class="login-saves" onclick="loginBtn()">登  录 </button>
+				</div>
+				<div class="pswIcon" onclick="changeIcon()">
+					<span class="icontent">记住密码</span>
+					<img class="unchecked" src="./imgs/checked.png">
+				</div>
+			</div>
+		
+		 </form> 
+	</div>
+</body>
+</html>

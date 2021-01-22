@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+		<title>菜单列表</title>
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/toastr.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/page/memu.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" type="text/css" charset="utf-8" />
+	
+		<script type="text/javascript" src="../js/toastr.js"></script>
+		<script type="text/javascript" src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../js/rem.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/pathUrl.js"></script>
+		<script type="text/javascript" src="../js/page/memu.js"></script>
+	</head>
+	<body style="background: #fff;">
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">菜单列表</div>
+			<!-- <div class="nvbt idoc" onclick="openDoc('about Document','about.html')"></div> -->
+		</header>
+		<div class="memu">
+			<div class="tops"></div>
+			<div class="memu-titless">
+				<span>欢迎进入院内系统</span>
+			</div>
+			 <div class="memu-item" id="oneShou">
+				<div class="memu-copy"></div>
+				<img class="pulsometer" src="../imgs/sao.png">
+				<div class="memu-list">扫码验收</div>
+			</div>
+		
+			<!--<div class="memu-item">
+				<img class="pulsometer" src="../img/parking_meter.png" alt="">
+				<div class="memu-list">科室退库</div>
+			</div> -->
+			<div class="memu-item"  id="pulsometera">
+				<div class="memu-copy"></div>
+				<img class="pulsometer" src="../img/surgery.png" alt="">
+				<div class="memu-list">值介入产品使用</div>
+			</div>
+			<div class="memu-item"  id="diZhi">
+				<div class="memu-copy"></div>
+				<img class="pulsometer" src="../img/pulsometer.png" alt="">
+				<div class="memu-list">低值产品使用</div>
+			</div>
+			<div class="memu-item"  id="fastUse">
+				<div class="memu-copy"></div>
+				<img class="pulsometer" src="../img/fastUse.png" alt="">
+				<div class="memu-list">一键使用</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		(function($, doc) {		
+			$.init();
+			$.ready(function() {
+				var deptFlag = false,hospFlag = false,whFlag =  false;
+				// 科室名称
+				mui.ajax(pathUrl()+'/spd-sys/admin/spd/spdWhSerial/allDeptInfo',{
+					beforeSend: function(request) {
+					    request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+					},
+					type:"post",
+					dataType:'json',
+					success:function(data) {
+						var lists = new Array();
+						for(var i=0;i<data.length;i++){
+							lists.push(data[i].deptName)
+						}
+						deptFlag = true;
+						sessionStorage.setItem("deptList", JSON.stringify(lists)); 
+						sessionStorage.setItem("deptListOri", JSON.stringify(data)); 
+					},
+					error:function() {
+						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+							toastr.warning('失败!')
+						}
+					}
+				})
+				// 暂存库房
+				mui.ajax(pathUrl()+'/spd-sys/admin/spd/common/queryAllWhByHospCode',{
+					beforeSend: function(request) {
+					    request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+					},
+					type:"post",
+					dataType:'json',
+					success:function(data) {
+						var lists = new Array();
+						for(var i=0;i<data.length;i++){
+							lists.push(data[i].whName)
+						}
+						whFlag = true;
+						sessionStorage.setItem("whList", JSON.stringify(lists)); 
+						sessionStorage.setItem("whListOri", JSON.stringify(data)); 
+						
+					},
+					error:function() {
+						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+							toastr.warning('失败!')
+						}
+					}
+				})
+				// 医院名称
+				mui.ajax(pathUrl()+'/spd-sys/admin/spd/spdWhSerial/allHospInfo',{
+					beforeSend: function(request) {
+					    request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+					},
+					type:"post",
+					dataType:'json',
+					success:function(data) {
+						sessionStorage.setItem("hospName", data[0].hospName);
+						hospFlag = true;
+					},
+					error:function() {
+						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+							toastr.warning('失败!')
+						}
+					}
+				})
+				
+				// 换成以下就可以了，$(".top-menu-list") 为本来的事件源的父级,此父级需要是一开始就存在的dom结构，而非动态添加 
+				$(".memu").on("tap","#pulsometera",function(event){	
+					//if(hospFlag && deptFlag){
+						window.location.href="userList.html";
+					/* }else{
+						 mui.alert('加载中...');
+					} */
+				});
+				
+				// 换成以下就可以了，$(".top-menu-list") 为本来的事件源的父级,此父级需要是一开始就存在的dom结构，而非动态添加
+				$(".memu").on("tap","#oneShou",function(event){	
+					window.location.href="oneShou.html";	
+				});
+				
+				$(".memu").on("tap","#diZhi",function(event){	
+					window.location.href="diZhi.html";	
+				});
+				
+				$(".memu").on("tap","#fastUse",function(event){
+					window.location.href="fastUse.html";	
+				});
+				
+			})
+		})(mui, document);
+	</script>
+</html>

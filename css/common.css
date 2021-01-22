@@ -1,0 +1,114 @@
+
+/*弹框 样式  */
+.window{
+	background:#fff;
+	border: 1px solid #ccc;
+	padding:0;
+}
+.window .window-header{
+	background:#f1f4fa;
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+}
+.window-header .panel-title {
+	color:#0E6EB8;
+}
+.window .window-body{
+	border:0;
+}
+
+.window .window-header .panel-tool {
+	right: 10px;
+}
+.messager-button{
+	border: 0;
+}
+
+table{
+	border-collapse: collapse;
+	margin: 0 auto;
+	table-layout:fixed;
+}
+thead{
+  background: #0E6EB8;
+  color: #ffffff;
+}
+thead th{
+  border:1px solid #fff;
+}
+tbody td {
+  border:1px solid #ccc;
+}
+tbody td:first-child{
+  border-left: 0;
+}
+tbody td:last-child{
+  border-right: 0;
+}
+/* 设置table左上圆角 */
+table thead tr:first-child th:first-child{
+	border-top-left-radius: 10px;     
+}
+/* 设置table右上圆角 */
+table thead tr:first-child th:last-child{
+	border-top-right-radius: 10px;     
+}
+/* th:first-child,
+td:first-child{position:absolute;width:105px;} */
+tr{
+  height: 0.35rem;
+
+}
+
+th:first-child,th:nth-child(2),
+td:first-child,td:nth-child(2){
+  text-align: center;
+}
+td:first-child{
+ white-space: nowrap;
+}
+td a{
+  color: #0E6EB8;
+}
+td{
+	word-break: break-all;
+	word-wrap:break-word;
+}
+
+
+header {
+	width: 100%;
+	height: 0.44rem;
+	font-size: 0.18rem;
+	text-align: center;
+	line-height: 0.44rem;
+	background: #0E6EB8;
+	border-bottom: 1px solid #0E6EB8;
+	-ms-touch-action: none;
+	position: fixed;
+	top: 0;
+}
+
+.nvbt {
+	width: 15%;
+	height: 100%;
+	float: left;
+}
+
+/* .nvbt:active {
+	background-color: rgba(170, 170, 170, 0.1);
+} */	
+.nvtt {
+	width: 70%;
+	height: 100%;
+	color: #fff;
+	float: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.iback {
+	background: no-repeat center center url(../imgs/jiao.png);
+	background-size: 0.17rem 0.23rem;
+}

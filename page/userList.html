@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+		<title>值介入产品使用</title>
+		
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/toastr.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/page/userList.css" type="text/css" charset="utf-8" />
+		
+		<script type="text/javascript" src="../js/rem.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/pathUrl.js"></script>
+		<script type="text/javascript" src="../js/page/userList.js"></script>
+		<script type="text/javascript" src="../js/toastr.js"></script>
+		<script type="text/javascript" src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js"></script>
+		
+	</head>
+	<body style="background: #fff;">	
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">值介入产品使用</div>
+			<!-- <div class="nvbt idoc" onclick="openDoc('about Document','about.html')"></div> -->
+		</header>
+		<div class="user-contents">
+			<div class="tops"></div>
+			<div class="user-parent" style="margin-top: 10px;">
+				<span class="user-parent-name">医院名称：</span>
+				<span class="hospName" id="hospName"></span>
+			</div>
+			<div class="user-parent" style="margin-top: 10px;">
+				<span class="user-parent-name">科室名称：</span>
+				<button id='deptPicker' class="mui-btn mui-btn-block" type='button'></button>
+				
+				<span class="user-parent-name">暂存库房：</span>
+				<button id='whPicker' class="mui-btn mui-btn-block" type='button'></button>
+			</div>
+			<div class="user-parent">
+				
+				<span class="user-parent-name">使用情况：</span>
+				<button id='userPicker' class="mui-btn mui-btn-block" type='button'></button>
+				<span class="user-parent-searchs" id="cha" onclick="seatchInfo()">查询</span>
+				<span id="infoMation">
+					<span class="user-parent-name">患者信息：</span>
+					<input class="user-parent-code" id="inHosCode" type="text" onpaste = "return false";>
+					<span class="user-parent-searchs" onclick="seatchInfo()">查询</span>
+				</span>
+			</div>
+		</div>
+	</body>
+	<script>
+		var deptList = JSON.parse(sessionStorage.getItem("deptList"));
+		var whList = JSON.parse(sessionStorage.getItem("whList"));
+		(function($, doc) {		
+			$.init();
+			$.ready(function() {
+				//科室名称
+				var deptPicker = new $.PopPicker();
+				 deptPicker.setData(deptList);
+
+				var deptPickerButton = doc.getElementById('deptPicker');
+				deptPickerButton.innerText = deptList[0];
+				deptPickerButton.addEventListener('tap', function(event) {
+					 deptPicker.show(function(items) {
+					
+						deptPickerButton.innerText = items[0];
+					});
+				}, false);
+				
+				//暂存库房
+				var whPicker = new $.PopPicker();
+				 whPicker.setData(whList);
+				
+				var whPickerButton = doc.getElementById('whPicker');
+				whPickerButton.innerText = whList[0];
+				whPickerButton.addEventListener('tap', function(event) {
+					 whPicker.show(function(items) {
+					
+						whPickerButton.innerText = items[0];
+					});
+				}, false);
+				
+				// 使用类型
+				var userList = ['正常使用','报损']
+				var userPicker = new $.PopPicker();
+				 userPicker.setData(userList);
+						
+				var userPickerButton = doc.getElementById('userPicker');
+				var infoMationButton = doc.getElementById('infoMation');
+				var chaButton = doc.getElementById('cha');
+				userPickerButton.innerText = userList[0];
+				chaButton.style.display = "none";
+				userPickerButton.addEventListener('tap', function(event) {
+					 userPicker.show(function(items) {
+						userPickerButton.innerText = items[0];
+						if(userPickerButton.innerText == "正常使用"){
+							 infoMationButton.style.display = "block";
+							 chaButton.style.display = "none";
+						}else if (userPickerButton.innerText == "报损"){
+							infoMationButton.style.display = "none";
+							chaButton.style.display = "inline-block";
+						}
+					});
+				}, false);
+			 })
+			 
+		})(mui, document);
+	</script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+		<title>扫码验收</title>
+		
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/toastr.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/pagination.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/page/oneShou.css" type="text/css" charset="utf-8" />
+		
+		<script type="text/javascript" src="../js/rem.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/pagination.min.js"></script>
+		
+		<script type="text/javascript" src="../js/pathUrl.js"></script>
+		<script type="text/javascript" src="../js/page/oneShou.js"></script>
+		<script type="text/javascript" src="../js/toastr.js"></script>
+		<script type="text/javascript" src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js"></script>
+
+		
+		<style>
+			.paginationjs .paginationjs-pages li.active>a {
+				background: #1070BA;
+			}
+			.M-box1{
+				margin-top:10px;
+			}
+		</style>
+	</head>
+	<body  style="background: #FAFAFA;">
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">扫码验收</div>
+		</header>
+		<div class="oneShou-all">
+			<div class="tops"></div>
+			<div class="oneShou-parent">
+				<span id="infoMation">
+					<span class="oneShou-parent-name">发货单号：</span>
+					<input class="oneShou-parent-code" id="bizNo" type="text" onpaste = "return false";>
+					<span class="oneShou-parent-searchs" onclick="seatchInfo()">查询</span>
+				</span>
+			</div>
+			<div class="search">
+				<div class="search-center">
+					<div style="overflow:auto;height: calc(100% - 40px);">
+						<table width="1350px" cellpadding="2" cellspacing="1">
+							<thead>
+								<tr>
+									<th style="width: 40px;"></th>
+									<th style="width: 50px;">操作</th>
+									<th style="width: 110px;">发货单号</th>
+									<th style="width: 75px;">医保通用名</th>
+									<th style="width: 115px;">系统编号</th>
+									<th style="width: 110px;">主条形码</th>
+									<th style="width: 110px;">副条形码</th>
+									<th style="width: 80px;">批号</th>
+									<th style="width: 80px;">生产日期</th>
+									<th style="width: 80px;">有效日期</th>
+									<th style="width: 50px;">数量</th>
+									<th style="width: 50px;">单位</th>
+								</tr>
+							</thead>
+							<tbody class="search-tbody">
+								<!-- <tr>
+									<td style="width: 40px;">1000</td>
+									<td style="width: 50px;">
+										<a href="#" style="color: #2391E7;text-decoration: none;" onclick="delBizNo('11111')">移除</a>
+									</td>
+									<td style="width: 120px;">FH20201207645452</td>
+									<td style="width: 75px;">支架</td>
+									<td style="width: 100px;">MS20201203466882</td>
+									<td style="width: 115px;">A2020120315</th>
+									<td style="width: 100px;">111112222</td>
+									<td style="width: 80px;">896333</td>
+									<td style="width: 80px;">2019-01-05</td>
+									<td style="width: 80px;">2021-01-04</td>
+									<td style="width: 50px;">10</td>
+									<td style="width: 50px;">个</td>
+								</tr> -->
+							</tbody>
+						</table>
+					</div>
+					<div class="M-box1"></div>
+				</div>
+			</div>
+			
+			<div class="oneShou-parent-yi" onclick="yiShou()">一键验收</div>
+			
+		</div>
+	</body>
+</html>
