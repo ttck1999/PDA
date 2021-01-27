@@ -53,20 +53,23 @@
 			<div class="diZhi-parent">
 				<span class="diZhi-parent-name">使用情况：</span>
 				<button id='userPicker' class="mui-btn mui-btn-block" type='button'></button>
-				<span class="diZhi-parent-name">患者信息：</span>
-				<input class="diZhi-parent-code" id="patientInfo" type="text">
-				
+				<span class="diZhi-parent-searchs" id="cha" onclick="seatchInfo()">查询</span>
+				<span id="infoMation">
+					<span class="diZhi-parent-name">患者信息：</span>
+					<input class="diZhi-parent-code" id="inHosCode" type="text" onpaste = "return false";>
+					<span class="diZhi-parent-searchs" onclick="seatchInfo()">查询</span>
+				</span>
 			</div>
-			<div class="diZhi-parent" style="margin-top: 10px;">
+			<!-- <div class="diZhi-parent" style="margin-top: 10px;">
 				<span class="diZhi-parent-name">使用数量：</span>
 				<input class="diZhi-parent-code" id="useNum" type="text">
 				<span class="diZhi-parent-name">贴码标签：</span>
 				<input class="diZhi-parent-code" style="margin-top: 10px;" id="scanCode" type="text" >
-			</div>
-			<div class="diZhi-parent" style="margin-top: 30px;text-align: center;">
+			</div> -->
+			<!-- <div class="diZhi-parent" style="margin-top: 30px;text-align: center;">
 				<span class="diZhi-parent-searchs" onclick="seatchInfo()">确定</span>
 				<span class="diZhi-parent-searchs diZhi-parent-close" onclick="cancles()">关闭</span>
-			</div>
+			</div> -->
 			
 		</div>
 	</body>
@@ -113,16 +116,19 @@
 				userPicker.setData(userList);
 				
 				var userPickerButton = doc.getElementById('userPicker');
-				var patientInfoButton = doc.getElementById('patientInfo');
 				userPickerButton.innerText = userList[0];
-				
+				var infoMationButton = doc.getElementById('infoMation');
+				var chaButton = doc.getElementById('cha');
+				chaButton.style.display = "none";
 				userPickerButton.addEventListener('tap', function(event) {
 					 userPicker.show(function(items) {
 						userPickerButton.innerText = items[0];
 						if(userPickerButton.innerText == "正常使用"){
-							 patientInfoButton.removeAttribute('disabled') 
+							 infoMationButton.style.display = "block";
+							 chaButton.style.display = "none";
 						}else if (userPickerButton.innerText == "报损"){
-							patientInfoButton.setAttribute('disabled', 'disabled')
+							infoMationButton.style.display = "none";
+							chaButton.style.display = "inline-block";
 						}
 					});
 				}, false);

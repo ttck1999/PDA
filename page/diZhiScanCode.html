@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+		<title>低值产品使用</title>
+		
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/toastr.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" type="text/css" charset="utf-8" />
+		
+		<script type="text/javascript" src="../js/rem.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/pathUrl.js"></script>
+		<script type="text/javascript" src="../js/toastr.js"></script>
+		<script type="text/javascript" src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js"></script>
+		
+		<link rel="stylesheet" href="../css/page/diZhiScanCode.css" type="text/css" charset="utf-8" />
+		<script type="text/javascript" src="../js/page/diZhiScanCode.js"></script>
+		
+	</head>
+	<body style="background: #fff;">	
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">低值产品使用</div>
+			<!-- <div class="nvbt idoc" onclick="openDoc('about Document','about.html')"></div> -->
+		</header>
+		<div class="user-contents">
+			<div class="tops"></div>
+
+			<div id="pationsAll">
+				<div id="aaaaa">
+					<div class="litileAll">
+						<div class="xiaoxiao">	
+							<span class="patCode">患者ID：</span>
+							<span class="patName" id="patientId"></span>
+						</div>
+						<div class="xiaoxiao">
+							<span class="patCode">患者姓名：</span>
+							<span class="patName" id="patientName"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao">
+							<span class="patCode">患者性别：</span>
+							<span class="patName" id="patientSex"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">患者身份证号：</span>
+							<span class="patName" id="patientCardNo"></span>	
+						</div>
+						<div style="clear:both"></div>
+					</div>
+				</div>
+				<div class="litileAll" style="margin-top: 5px;">
+					<div>
+						<span class="user-parent-name">贴码标签：</span>
+						<input  class="user-parent-code" id="scanCode" type="text" >
+						<span class="user-parent-searchs" onclick="addInfo()">添加</span>
+					</div>
+					<!-- <div>
+						<span class="user-parent-name">副条形码：</span>
+						<input  class="user-parent-code" id="secondCode" type="text" >
+					</div> -->
+				</div>
+			</div>
+			<!-- 扫主码和次码的数据 -->
+			<div id="tableCent" style="font-size: 0.12rem;">
+				
+			</div>
+			<div style="text-align: center;margin:20px 0">
+				<a href="javascript:void(0)" class="base-btn" onClick="saveCont()"style="margin-left: 10px;">确定</a>
+				<a href="javascript:void(0)" class="base-cancel" onClick="clearCont()" style="margin-left: 10px;">清空</a>	
+			</div>
+		</div>
+	</body>
+</html>

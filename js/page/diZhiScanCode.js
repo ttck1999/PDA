@@ -20,8 +20,6 @@ function getReceive (context, intent) {
 	if(m_barcode != "") {
 		if(userName == "scanCode"){
 			$("#scanCode").val(m_barcode);
-		}else if(userName == "secondCode"){
-			$("#secondCode").val(m_barcode);
 		}
 	
 	}
@@ -35,14 +33,15 @@ var nums =0,arrTmp = [],arrObj = [],objData = {};
 
 // 返回按钮
 function back() {
-	window.location.href="fastUse.html";
+	window.location.href="diZhi.html";
 }
 // 添加按钮 
 function addInfo(){
-	ajaxData($.trim($("#scanCode").val()),$.trim($("#secondCode").val()))
+	ajaxData($.trim($("#scanCode").val()))
 }
+var scanCodesss;
 // 主码的数据请求
-function ajaxData(scanCode,secondCode){
+function ajaxData(scanCode){
 	var scanCodeTmp;
 	//主副码在一起  0104047075090921 1117102410194233
 	if($.trim(scanCode).length >=30){
@@ -50,52 +49,62 @@ function ajaxData(scanCode,secondCode){
 	}else{
 		scanCodeTmp = $.trim(scanCode)
 	}
-
+		
 	$.ajax({
-        url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/fastScanMedInfo',
+        url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/queryScanCodeByCode',
         beforeSend: function(request) {
             request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
         },
         type:"post",
-        data:{"msKinds":JSON.parse(sessionStorage.getItem('parentObj')).msKinds,'scanCode':scanCodeTmp,"secondCode":$.trim(secondCode),"deptCode":JSON.parse(sessionStorage.getItem('parentObj')).deptCode,"whCode":JSON.parse(sessionStorage.getItem('parentObj')).whCode},
+        data:{'scanCode':scanCodeTmp},
         dataType:'json',
         success:function(data) {
         	if(data.code == "200"){
-        		if(arrTmp.indexOf(data.data[0].masterCode+"-"+data.data[0].secondCode) == -1){
-							if(data.data[0].produceNo == null || data.data[0].produceNo == ""){
-								data.data[0].produceNo = "-";
+        		if(arrTmp.indexOf(data.data.scanCode) == -1){
+								var isBoolean =  false;
+								for(var i =0;i<arrObj.length;i++){
+								 if(data.data.msCode==arrObj[i].msCode && data.data.msKind =="试剂"){
+									isBoolean = true;
+									break;
+								}
 							}
-							if(data.data[0].registerSpecs == null || data.data[0].registerSpecs == ""){
-								data.data[0].registerSpecs = "-";
+							if(isBoolean){
+								if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+									toastr.warning(data.data.regName+'产品已添加,请勿重复添加')
+								}
+								
+								return;
+							}
+							if(data.data.produceNo == null || data.data.produceNo == ""){
+								data.data.produceNo = "-";
+							}
+							if(data.data.registerSpecs == null || data.data.registerSpecs == ""){
+								data.data.registerSpecs = "-";
 							}
 							
-							if(data.data[0].specification == null || data.data[0].specification == ""){
-								data.data[0].specification = "-";
+							if(data.data.specification == null || data.data.specification == ""){
+								data.data.specification = "-";
 							}
-							if(data.data[0].regNo == null || data.data[0].regNo == ""){
-								data.data[0].regNo = "-";
+							if(data.data.regNo == null || data.data.regNo == ""){
+								data.data.regNo = "-";
 							}
 							
-							if(data.data[0].produceDate == null || data.data[0].produceDate == ""){
-								data.data[0].produceDate = "-";
+							if(data.data.produceDate == null || data.data.produceDate == ""){
+								data.data.produceDate = "-";
 							}
-							if(data.data[0].expDate == null || data.data[0].expDate == ""){
-								data.data[0].expDate = "-";
+							if(data.data.expDate == null || data.data.expDate == ""){
+								data.data.expDate = "-";
 							}
-							arrTmp.push(data.data[0].masterCode+"-"+data.data[0].secondCode);
-							arrObj.push(data.data[0])
+							arrTmp.push(data.data.scanCode);
+							arrObj.push(data.data)
 							nums+=1;
 							$("#tableCent").html('')
 							var str = ""
 							for(var i=0;i<nums;i++){
-								str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ccc;padding: 5px 7px;">'+
-        					'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">主条形码：</span>'+
-									'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].masterCode+'</span>'+
-										'</div>'+
+								str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
 										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">副条形码：</span>'+
-									'<span style="display: inline-block;" id="secondCodeTwo'+i+'">'+arrObj[i].secondCode+'</span>'+
+									'<span style="display: inline-block;width: 75px;">贴码标签：</span>'+
+									'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].scanCode+'</span>'+
 										'</div>'+
 										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
 									'<span style="display: inline-block;width: 75px;">名称：</span>'+
@@ -145,18 +154,22 @@ function ajaxData(scanCode,secondCode){
 									'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
 									'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
 								'</div>'+
-								'</div>'
+        			'</div>'
 							}
 							$("#tableCent").html(str);
 							for(var i=0;i<nums;i++){
-								numData($("#scanCodeTwo"+i).html(),$("#secondCodeTwo"+i).html(),"1")
+								numData($("#scanCodeTwo"+i).html(),"1")
 							}
         		}
         		$("#tableCent").show();
 						$("#scanCode").val("");
-						$("#secondCode").val("")
-        	} else {
-				
+        	}else if(data.code=='405'){//表示是试剂产品 且有存在和当前标签码不一致且正在使用的 需要手动结束用尽
+						scanCodesss = data.msg;
+						var rs = confirm("同产品标签码为"+scanCodesss+"是否用尽？")
+						if(rs){
+							isOver()
+						}
+					}else {
 						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 							toastr.warning(data.msg)
 						}
@@ -177,68 +190,64 @@ function delPro(idx){
 	$("#tableCent").html('')
 	var str = ""
 	for(var i=0;i<nums;i++){
-		str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ccc;padding: 5px 7px;">'+
+		str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">主条形码：</span>'+
-			'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].masterCode+'</span>'+
-				'</div>'+
-				'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">副条形码：</span>'+
-			'<span style="display: inline-block;" id="secondCodeTwo'+i+'">'+arrObj[i].secondCode+'</span>'+
+			'<span style="display: inline-block;width: 75px;">贴码标签：</span>'+
+			'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].scanCode+'</span>'+
 				'</div>'+
 				'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
 			'<span style="display: inline-block;width: 75px;">名称：</span>'+
 			'<span style="display: inline-block;" id="msNameTwo'+i+'">'+arrObj[i].msName+'</span>'+
 				'</div>'+
-		'<div style="display: none;">'+
-			'<span type="hidden" style="display:none">系统编号：</span>'+
-			'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
-		'</div>'+
-		'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
-			'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
-				'</div>'+
-		'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="float: left;width: 75px;">生产企业：</span>'+
-			'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
-		'</div>'+
-		'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="float: left;width: 75px;">供货商：</span>'+
-			'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
-		'</div>'+
-		
-		'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
-			'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
-		'</div>'+
-		'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
-			'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
-		'</div>'+
-		'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 60px;">批号：</span>'+
-			'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
-		'</div>'+
-		
-		'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
-			'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
-		'</div>'+
-		'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
-			'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
-		'</div>'+
-		
-		'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">数量：</span>'+
-			'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
-			'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
-		'</div>'+
+			'<div style="display: none;">'+
+				'<span type="hidden" style="display:none">系统编号：</span>'+
+				'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
+			'</div>'+
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
+				'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
+					'</div>'+
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="float: left;width: 75px;">生产企业：</span>'+
+				'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
+			'</div>'+
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="float: left;width: 75px;">供货商：</span>'+
+				'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
+			'</div>'+
+			
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
+				'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
+			'</div>'+
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
+				'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
+			'</div>'+
+			'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 60px;">批号：</span>'+
+				'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
+			'</div>'+
+			
+			'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
+				'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
+			'</div>'+
+			'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
+				'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
+			'</div>'+
+			
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: 75px;">数量：</span>'+
+				'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
+				'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
+			'</div>'+
 		'</div>'
 	}
 	$("#tableCent").html(str);
 	for(var i=0;i<nums;i++){
-		numData($("#scanCodeTwo"+i).html(),$("#secondCodeTwo"+i).html(),"1")
+		numData($("#scanCodeTwo"+i).html(),"1")
 	}
 }
 // 点击数量
@@ -284,7 +293,7 @@ function useNumClick(nums){
 				}
 				return;
 			}			
-	 		numData($("#scanCodeTwo"+nums).html(),$("#secondCodeTwo"+nums).html(),$(this).val())
+	 		numData($("#scanCodeTwo"+nums).html(),$(this).val())
 	 	}else{
 			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 				toastr.warning('数量不能为空!')
@@ -294,14 +303,14 @@ function useNumClick(nums){
 }
 
 // 数量的数据请求
-function numData(scanCode,secondCode,n){
+function numData(scanCode,n){
 	$.ajax({
-		url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/fastScanMedStoreNum',
+		url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/lowScanMedStoreNum',
 		beforeSend: function(request) {
 		    request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
 		},
 		type:"get",
-		data:{"msKinds":JSON.parse(sessionStorage.getItem('parentObj')).msKinds,"scanCode": scanCode,"secondCode":secondCode,"deptCode":JSON.parse(sessionStorage.getItem('parentObj')).deptCode,"num":n,"whCode":JSON.parse(sessionStorage.getItem('parentObj')).whCode},
+		data:{"scanCode": scanCode,"deptCode":JSON.parse(sessionStorage.getItem('parentObj')).deptCode,"num":n},
 		dataType:"json",
 		success:function(data) {
 			objData = data;
@@ -323,10 +332,9 @@ function numData(scanCode,secondCode,n){
 // 确定按钮
 function saveCont(){
 	var objTmp = JSON.parse(sessionStorage.getItem('parentObj'))
+	var hospCode = objTmp.hospCode;
 	var deptCode = objTmp.deptCode;
 	var useType = objTmp.useType;
-	var whCode = objTmp.whCode;
-  var mskind = objTmp.msKinds;
 
 	// 损耗
 	if(useType == "2"){
@@ -334,12 +342,11 @@ function saveCont(){
 		
 		for(var i=0;i<arrObj.length;i++){
 			arr.push({
+				hospCode: hospCode,
 				deptCode:deptCode,
 				useType:useType,
-				whCode:whCode,
 				useNum:$("#useNumTwo"+i).val(),
 				scanCode: $("#scanCodeTwo"+i).html(),
-				secondCode: $("#secondCodeTwo"+i).html(),
 				msCode: $("#msCodeTwo"+i).html(),
 			})
 		}
@@ -392,7 +399,6 @@ function saveCont(){
 		}
 		obj.useType = useType;
 		obj.records = arr;
-		obj.mskind = mskind;
 		obj.inHosCode = sessionStorage.getItem("inHosCode");
 
 		if($("#tableCent").find(".items") && $("#tableCent").find(".items").length >0){
@@ -401,7 +407,7 @@ function saveCont(){
 				// 如果库存不足 或者其他问题 不能保存
 				if(objData.code == "200"){
 					$.ajax({
-						url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/insertFastUse',
+						url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/supsUseAdd",
 						beforeSend: function(request) {
 							request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
 						},
@@ -446,20 +452,19 @@ function saveCont(){
 	}else{
 		// 使用
 		var obj = {},arrParam = [];
+
 		obj.patientId = $('#patientId').html();
 		obj.patientName = $('#patientName').html();
 		obj.patientCardNo = $('#patientCardNo').html();
 		obj.patientSex = $('#patientSex').html();
 		obj.useType = useType;
-		obj.mskind = mskind;
 		for(var i=0;i<arrObj.length;i++){
 			arrParam.push({
+				hospCode: hospCode,
 				deptCode:deptCode,
 				useType:useType,
-				whCode:whCode,
 				useNum:$("#useNumTwo"+i).val(),
 				scanCode: $("#scanCodeTwo"+i).html(),
-				secondCode: $("#secondCodeTwo"+i).html(),
 				msCode: $("#msCodeTwo"+i).html(),
 			})
 		}
@@ -513,7 +518,6 @@ function saveCont(){
 		
 		obj.records = arrParam;
 		obj.inHosCode = sessionStorage.getItem("inHosCode");
-
 		if(obj.inHosCode == ''){
 			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 				toastr.warning('请输入患者信息')
@@ -526,7 +530,7 @@ function saveCont(){
 					// 如果库存不足 或者其他问题 不能保存
 					if(objData.code == "200"){
 						$.ajax({
-							url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/insertFastUse',
+							url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/supsUseAdd",
 							beforeSend: function(request) {
 								request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
 							},
@@ -542,14 +546,14 @@ function saveCont(){
 									return;
 								}else{
 									if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-										toastr.info('使用成功!')
+										toastr.warning('使用成功!')
 									}
 									window.location.href="memu.html";
 								}
 							},
 							error:function() {
 								if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-									toastr.warning('网络错误')
+									toastr.warning('使用成功!')
 								}
 							}
 						});
@@ -560,7 +564,7 @@ function saveCont(){
 					}
 				} else{
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-						toastr.warning('数量只能是数字!请输入正确的主条形码和副条形码')
+						toastr.warning('数量只能是数字!请输入正确的贴码标签')
 					}
 				}
 			}else{
@@ -578,6 +582,27 @@ function isEmptyObject(obj) {
 	 }
 	 return true;
 }
+//试剂产品手动结束使用状态
+function isOver(){
+	$.ajax({
+		url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/endOfUseByScanCode",
+		beforeSend: function(request) {
+			request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+		},
+		type:"post",
+		data:{'scanCode':scanCodesss},
+		dataType:"json",
+		success:function(data) {
+			scanCodesss = ''
+		},
+		error:function() {
+			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+				toastr.warning('网络错误')
+			}
+		}
+	});
+	
+}
 // 清空
 function clearCont(){
 	arrTmp = [];
@@ -586,7 +611,6 @@ function clearCont(){
 	objData = {};
 	$("#tableCent").html("")
 	$('#scanCode').val("")
-	$('#secondCode').val("")
 }
 $(function(){
 	toastr.options = {
@@ -618,8 +642,5 @@ $(function(){
 	
 	$("#scanCode").on("click",function(){
 		userName = "scanCode";
-	}) 
-	$("#secondCode").on("click",function(){
-		userName = "secondCode";
 	}) 
 })

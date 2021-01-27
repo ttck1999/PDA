@@ -23,141 +23,177 @@ function getReceive (context, intent) {
 	}
 	main.unregisterReceiver(receiver);//取消监听 
 }  
-var scanCodesss;
+
 // 返回按钮
 function back() {
 	window.location.href="memu.html";
 }
-//试剂产品手动结束使用状态
-function isOver(){
-	$.ajax({
-			url:'/spd-sys/admin/spd/spdWhSerial/endOfUseByScanCode',
-			type:"post",
-			data:{'scanCode':scanCodesss},
-			dataType:"json",
-			success:function(data) {
-				scanCodesss = ''
-			},
-			error:function() {
-				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-					toastr.warning('网络错误')
-				}
-			}
-	});
-	
-}
-// 关闭按钮
-function cancles(){
-	window.location.href="memu.html";
-}
-function isInteger(obj) {
-	 return typeof obj === 'number' && obj%1 === 0
-}
-// 确定按钮
+// 查询按钮
 function seatchInfo(){
-		for(var i=0;i<deptListOri.length;i++){
-			if(deptListOri[i].deptName == $("#deptPicker").html()){
-				var deptCode = deptListOri[i].deptCode
-			}
+	for(var i=0;i<deptListOri.length;i++){
+		if(deptListOri[i].deptName == $("#deptPicker").html()){
+			var deptCode = deptListOri[i].deptCode
 		}
-		
-		if($("#userPicker").html() == "正常使用"){
-			var useType = "1";
-		}else if($("#userPicker").html() == "报损"){
-			var useType = "2";
-		}
-		
-		var hospCode = hospObj.hospCode;
-		var useNum = $.trim($('#useNum').val());
-		var patientInfo = $.trim($('#patientInfo').val());
-		var scanCode = $.trim($('#scanCode').val());
-		
-		if(useNum == ""){
-			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-				toastr.warning('使用数量不能为空')
-			}
-			return;
-		}else{
-			if(useNum == "0"){
-				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-					toastr.warning('使用数量不能为0')
-				}
-				return;
-			}else{
-				if(Number(useNum) >0){
+	}
+
+	if($("#userPicker").html() == "正常使用"){
+		var useType = "1";
+	}else if($("#userPicker").html() == "报损"){
+		var useType = "2";
+	}
+	
+	if($("#userPicker").html() == "正常使用"){
+		if($.trim($("#inHosCode").val()) != ""){
+			$.ajax({
+				url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/patientInfo',
+				beforeSend: function(request) {
+					request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+				},
+				type:"post",
+				data:{'code':$.trim($("#inHosCode").val())},
+				dataType:'json',
+				success:function(data) {
+					var dataTmp = data;
 					
-					if(!isInteger(Number(useNum))){
-						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-							toastr.warning('使用数量必须是整数')
-						}
-						return;
-					}
-					if((useNum).indexOf('.') > -1){
-						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-							toastr.warning('数量必须是整数')
-						}
-						return;
-					}
-					if(String(Number(useNum)).length >= 10){
-						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-							toastr.warning('数量不能超过9位数')
-						}
-						return;
-					}
-				}else{
+					dataTmp.hospCode = $("#hospName").html();
+					dataTmp.deptCode = deptCode;
+					dataTmp.useType = useType;
+					
+					sessionStorage.setItem("parentObj", JSON.stringify(dataTmp)); 
+					sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
+					window.location.href="diZhiScanCode.html";
+				},
+				error:function() {
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-						toastr.warning('使用数量必须是正整数')
-					}
-					return;
-				}
-			} 
-		}
-		var obj ={
-			'hospCode':hospCode,
-			'deptCode':deptCode,
-			'useNum':useNum,
-			'useType':useType,
-			'patientInfo':patientInfo,
-			'scanCode':scanCode,
-		}
-		$.ajax({
-			type: "post",
-			url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/supsUseAdd",
-			beforeSend: function(request) {
-			 request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
-			},
-			data:{
-				'hospCode':hospCode,
-				'deptCode':deptCode,
-				'useNum':useNum,
-				'useType':useType,
-				'patientInfo':patientInfo,
-				'scanCode':scanCode,
-			},
-			/* dataType: "json",
-			contentType:"application/json; charset=utf-8", */
-			success: function(data){
-				if(data.code=='200'){
-					$('#useNum').val("");
-					$('#patientInfo').val("");
-					$('#scanCode').val("");
-					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-						toastr.info(data.msg)
-					}
-				}else{
-					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-						toastr.warning(data.msg)
+						toastr.warning('失败!')
 					}
 				}
-			},
-			error:function() {
-				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-					toastr.warning('网络错误')
-				}
+			});
+		}else{
+			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+				toastr.warning('请输入患者信息!')
 			}
-		})
+		}
+	}else {
+		var dataTmp = {};
 		
+		dataTmp.hospCode = $("#hospName").html();
+		dataTmp.deptCode = deptCode;
+		dataTmp.useType = useType;
+		sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
+		sessionStorage.setItem("parentObj", JSON.stringify(dataTmp)); 
+		window.location.href="diZhiScanCode.html";
+	}
 }
+
+// function isInteger(obj) {
+// 	 return typeof obj === 'number' && obj%1 === 0
+// }
+// // 确定按钮
+// function seatchInfo(){
+// 		for(var i=0;i<deptListOri.length;i++){
+// 			if(deptListOri[i].deptName == $("#deptPicker").html()){
+// 				var deptCode = deptListOri[i].deptCode
+// 			}
+// 		}
+		
+// 		if($("#userPicker").html() == "正常使用"){
+// 			var useType = "1";
+// 		}else if($("#userPicker").html() == "报损"){
+// 			var useType = "2";
+// 		}
+		
+// 		var hospCode = hospObj.hospCode;
+// 		var useNum = $.trim($('#useNum').val());
+// 		var patientInfo = $.trim($('#patientInfo').val());
+// 		var scanCode = $.trim($('#scanCode').val());
+		
+// 		if(useNum == ""){
+// 			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 				toastr.warning('使用数量不能为空')
+// 			}
+// 			return;
+// 		}else{
+// 			if(useNum == "0"){
+// 				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 					toastr.warning('使用数量不能为0')
+// 				}
+// 				return;
+// 			}else{
+// 				if(Number(useNum) >0){
+					
+// 					if(!isInteger(Number(useNum))){
+// 						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 							toastr.warning('使用数量必须是整数')
+// 						}
+// 						return;
+// 					}
+// 					if((useNum).indexOf('.') > -1){
+// 						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 							toastr.warning('数量必须是整数')
+// 						}
+// 						return;
+// 					}
+// 					if(String(Number(useNum)).length >= 10){
+// 						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 							toastr.warning('数量不能超过9位数')
+// 						}
+// 						return;
+// 					}
+// 				}else{
+// 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 						toastr.warning('使用数量必须是正整数')
+// 					}
+// 					return;
+// 				}
+// 			} 
+// 		}
+// 		var obj ={
+// 			'hospCode':hospCode,
+// 			'deptCode':deptCode,
+// 			'useNum':useNum,
+// 			'useType':useType,
+// 			'patientInfo':patientInfo,
+// 			'scanCode':scanCode,
+// 		}
+// 		$.ajax({
+// 			type: "post",
+// 			url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/supsUseAdd",
+// 			beforeSend: function(request) {
+// 			 request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+// 			},
+// 			data:{
+// 				'hospCode':hospCode,
+// 				'deptCode':deptCode,
+// 				'useNum':useNum,
+// 				'useType':useType,
+// 				'patientInfo':patientInfo,
+// 				'scanCode':scanCode,
+// 			},
+// 			/* dataType: "json",
+// 			contentType:"application/json; charset=utf-8", */
+// 			success: function(data){
+// 				if(data.code=='200'){
+// 					$('#useNum').val("");
+// 					$('#patientInfo').val("");
+// 					$('#scanCode').val("");
+// 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 						toastr.info(data.msg)
+// 					}
+// 				}else{
+// 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 						toastr.warning(data.msg)
+// 					}
+// 				}
+// 			},
+// 			error:function() {
+// 				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+// 					toastr.warning('网络错误')
+// 				}
+// 			}
+// 		})
+		
+// }
 var hospList= [];
 $(function(){
   //医院
@@ -176,33 +212,33 @@ $(function(){
 	})
 	
 	//标签码
-	$('#scanCode').change(function(){
-		$.ajax({
-			url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/queryScanCodeByCode',
-			type:"post",
-			data:{'scanCode':$.trim($('#scanCode').val())},
-			dataType:"json",
-			success:function(data) {
-				if(data.code=='405'){//表示是试剂产品 且有存在和当前标签码不一致且正在使用的 需要手动结束用尽
-					scanCodesss = data.msg;
-					var rs = confirm("同产品标签码为"+scanCodesss+"是否用尽？")
-					if(rs){
-						isOver()
-					}
-				}else if(data.code!='200'){
-					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-						toastr.warning(data.msg)
-					}
-					$('#scanCode').val("")	
-				}
-				},
-				error:function() {
-					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
-						toastr.warning('网络错误')
-					}
-				}
-		});
-	})
+	// $('#scanCode').change(function(){
+	// 	$.ajax({
+	// 		url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/queryScanCodeByCode',
+	// 		type:"post",
+	// 		data:{'scanCode':$.trim($('#scanCode').val())},
+	// 		dataType:"json",
+	// 		success:function(data) {
+	// 			if(data.code=='405'){//表示是试剂产品 且有存在和当前标签码不一致且正在使用的 需要手动结束用尽
+	// 				scanCodesss = data.msg;
+	// 				var rs = confirm("同产品标签码为"+scanCodesss+"是否用尽？")
+	// 				if(rs){
+	// 					isOver()
+	// 				}
+	// 			}else if(data.code!='200'){
+	// 				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+	// 					toastr.warning(data.msg)
+	// 				}
+	// 				$('#scanCode').val("")	
+	// 			}
+	// 			},
+	// 			error:function() {
+	// 				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+	// 					toastr.warning('网络错误')
+	// 				}
+	// 			}
+	// 	});
+	// })
 })
 
 $(function(){
