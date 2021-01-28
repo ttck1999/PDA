@@ -56,7 +56,7 @@ function ajaxData(scanCode){
             request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
         },
         type:"post",
-        data:{'scanCode':scanCodeTmp},
+        data:{'scanCode':scanCodeTmp,"scanType":JSON.parse(sessionStorage.getItem('parentObj')).useType},
         dataType:'json',
         success:function(data) {
         	if(data.code == "200"){
@@ -100,66 +100,128 @@ function ajaxData(scanCode){
 							nums+=1;
 							$("#tableCent").html('')
 							var str = ""
-							for(var i=0;i<nums;i++){
-								str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
-										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">贴码标签：</span>'+
-									'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].scanCode+'</span>'+
-										'</div>'+
-										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">名称：</span>'+
-									'<span style="display: inline-block;" id="msNameTwo'+i+'">'+arrObj[i].msName+'</span>'+
-										'</div>'+
-								'<div style="display: none;">'+
-									'<span type="hidden" style="display:none">系统编号：</span>'+
-									'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
-								'</div>'+
-								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
-									'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
-										'</div>'+
-								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="float: left;width: 75px;">生产企业：</span>'+
-									'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
-								'</div>'+
-								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="float: left;width: 75px;">供货商：</span>'+
-									'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
-								'</div>'+
+							console.log(7888,JSON.parse(sessionStorage.getItem('parentObj')).useType)
+							if(JSON.parse(sessionStorage.getItem('parentObj')).useType == "3"){
+								for(var i=0;i<nums;i++){
+									str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
+											'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">贴码标签：</span>'+
+										'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].scanCode+'</span>'+
+											'</div>'+
+											'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">名称：</span>'+
+										'<span style="display: inline-block;" id="msNameTwo'+i+'">'+arrObj[i].msName+'</span>'+
+											'</div>'+
+									'<div style="display: none;">'+
+										'<span type="hidden" style="display:none">系统编号：</span>'+
+										'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
+										'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
+											'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="float: left;width: 75px;">生产企业：</span>'+
+										'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="float: left;width: 75px;">供货商：</span>'+
+										'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
+									'</div>'+
+									
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
+										'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
+										'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 60px;">批号：</span>'+
+										'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
+									'</div>'+
+									
+									'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
+										'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
+										'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
+									'</div>'+
+									
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;text-align: center;">'+
+										'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;">移除</a>'+
+									'</div>'+
+								'</div>'
+								}
+								$("#tableCent").html(str);
+								objData = {msg:"操作成功",code:200};
+							}else{
 								
-								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
-									'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
-								'</div>'+
-								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
-									'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
-								'</div>'+
-								'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">批号：</span>'+
-									'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
-								'</div>'+
-								
-								'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
-									'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
-								'</div>'+
-								'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
-									'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
-								'</div>'+
-								
-								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">数量：</span>'+
-									'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
-									'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
-								'</div>'+
-        			'</div>'
+								for(var i=0;i<nums;i++){
+									str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
+											'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">贴码标签：</span>'+
+										'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].scanCode+'</span>'+
+											'</div>'+
+											'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">名称：</span>'+
+										'<span style="display: inline-block;" id="msNameTwo'+i+'">'+arrObj[i].msName+'</span>'+
+											'</div>'+
+									'<div style="display: none;">'+
+										'<span type="hidden" style="display:none">系统编号：</span>'+
+										'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
+										'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
+											'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="float: left;width: 75px;">生产企业：</span>'+
+										'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="float: left;width: 75px;">供货商：</span>'+
+										'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
+									'</div>'+
+									
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
+										'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
+										'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 60px;">批号：</span>'+
+										'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
+									'</div>'+
+									
+									'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
+										'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
+									'</div>'+
+									'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
+										'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
+									'</div>'+
+									
+									'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+										'<span style="display: inline-block;width: 75px;">数量：</span>'+
+										'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
+										'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
+									'</div>'+
+								'</div>'
+								}
+								$("#tableCent").html(str);
+								for(var i=0;i<nums;i++){
+									numData($("#scanCodeTwo"+i).html(),"1")
+								}
 							}
-							$("#tableCent").html(str);
-							for(var i=0;i<nums;i++){
-								numData($("#scanCodeTwo"+i).html(),"1")
-							}
+							
         		}
         		$("#tableCent").show();
 						$("#scanCode").val("");
@@ -169,10 +231,12 @@ function ajaxData(scanCode){
 						if(rs){
 							isOver()
 						}
+						$("#scanCode").val("");
 					}else {
 						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 							toastr.warning(data.msg)
 						}
+						$("#scanCode").val("");
         	}
         },
         error:function() {
@@ -408,6 +472,74 @@ function saveCont(){
 				if(objData.code == "200"){
 					$.ajax({
 						url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/supsUseAdd",
+						beforeSend: function(request) {
+							request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
+						},
+						type:"post",
+						data:JSON.stringify(obj),
+						dataType:"json",
+						contentType:"application/json; charset=utf-8",
+						success:function(data) {
+							if(data.code !='200'){
+								if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+									toastr.warning(data.msg)
+								}
+								return;
+							}else{
+								if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+									toastr.warning('使用成功!')
+								}
+								window.location.href="memu.html";
+							}
+						},
+						error:function() {
+							if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+								toastr.warning('网络错误!')
+							}
+						}
+					});
+				}else{
+					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+						toastr.warning(objData.msg)
+					}
+				}
+			}else{
+				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+					toastr.warning("请输入")
+				}
+			}
+		}else{
+			if($('#toast-container').html() == null || $('#toast-container').html() == ''){
+				toastr.warning('无数据')
+			}
+		}
+	}else if(useType == "3"){ 
+		//试剂产品结束使用
+		var obj = {}, arr = [];
+		
+		for(var i=0;i<arrObj.length;i++){
+			arr.push({
+				hospCode: hospCode,
+				deptCode:deptCode,
+				useType:useType,
+				useNum:'',
+				scanCode: $("#scanCodeTwo"+i).html(),
+				msCode: $("#msCodeTwo"+i).html(),
+			})
+		}
+		
+		
+		obj.useType = useType;
+		obj.records = arr;
+		obj.inHosCode = sessionStorage.getItem("inHosCode");
+		
+		if($("#tableCent").find(".items") && $("#tableCent").find(".items").length >0){
+			// 对象是否为空
+			if (!isEmptyObject(objData) && $("#tableCent").find(".items")) {	
+				// 如果库存不足 或者其他问题 不能保存
+				if(objData.code == "200"){
+					$.ajax({
+						url: pathUrl()+"/spd-sys/admin/spd/spdWhSerial/endOfUseByScanCodeList",
 						beforeSend: function(request) {
 							request.setRequestHeader("PADSESSION", sessionStorage.getItem("PADSESSION"));
 						},

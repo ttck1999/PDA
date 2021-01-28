@@ -111,7 +111,7 @@
 				})
 				
 				// 使用类型
-				var userList = ['正常使用','报损']
+				var userList = ['正常使用','报损','试剂使用结束']
 				var userPicker = new $.PopPicker();
 				userPicker.setData(userList);
 				
@@ -126,7 +126,7 @@
 						if(userPickerButton.innerText == "正常使用"){
 							 infoMationButton.style.display = "block";
 							 chaButton.style.display = "none";
-						}else if (userPickerButton.innerText == "报损"){
+						}else{
 							infoMationButton.style.display = "none";
 							chaButton.style.display = "inline-block";
 						}

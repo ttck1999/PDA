@@ -40,6 +40,8 @@ function seatchInfo(){
 		var useType = "1";
 	}else if($("#userPicker").html() == "报损"){
 		var useType = "2";
+	}else if($("#userPicker").html() == "试剂使用结束"){
+		var useType = "3";
 	}
 	
 	if($("#userPicker").html() == "正常使用"){
