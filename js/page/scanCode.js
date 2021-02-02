@@ -151,15 +151,15 @@ function ajaxData(scanCode,secondCode){
 								
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
 									'<span style="display: inline-block;width: 75px;">数量：</span>'+
-									'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
+									'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" id="useNumTwo'+i+'" autocomplete="off">'+
 									'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
 								'</div>'+
         			'</div>'
 							}
 							$("#tableCent").html(str);
-							for(var i=0;i<nums;i++){
+							/* for(var i=0;i<nums;i++){
 								numData($("#scanCodeTwo"+i).html(),$("#secondCodeTwo"+i).html(),"1")
-							}
+							} */
         		}
         		$("#tableCent").show();
 						$("#scanCode").val("");
@@ -240,18 +240,19 @@ function delPro(idx){
 			
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
 				'<span style="display: inline-block;width: 75px;">数量：</span>'+
-				'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" onclick="useNumClick('+i+')" id="useNumTwo'+i+'" autocomplete="off">'+
+				'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" id="useNumTwo'+i+'" autocomplete="off">'+
 				'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
 			'</div>'+
 		'</div>'
 	}
+	//onclick="useNumClick('+i+')" 
 	$("#tableCent").html(str);
-	for(var i=0;i<nums;i++){
-		numData($("#scanCodeTwo"+i).html(),$("#secondCodeTwo"+i).html(),"1")
-	}
+	/* for(var i=0;i<nums;i++){
+		//numData($("#scanCodeTwo"+i).html(),$("#secondCodeTwo"+i).html(),"1")
+	} */
 }
 // 点击数量
-function useNumClick(nums){
+/* function useNumClick(nums){
 	// change事件请求多次的问题 先off change 再on change
 	// 数量够不够
 	$("#useNumTwo"+nums).off("change").on("change",function(){
@@ -328,7 +329,7 @@ function numData(scanCode,secondCode,n){
 			}
 		}
 	});
-}
+} */
 // 确定按钮
 function saveCont(){
 	var objTmp = JSON.parse(sessionStorage.getItem('parentObj'))
@@ -362,21 +363,21 @@ function saveCont(){
 				return;
 			}else{
 				if(isNaN(Number($.trim(arr[i].useNum)))){
-					objData = {code: 123,msg: "数量只能是数字"}
+				//	objData = {code: 123,msg: "数量只能是数字"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是数字!')
 					}
 					return;
 				}
 				if(Number($.trim(arr[i].useNum)) <=0 ){
-					objData = {code: 123,msg: "数量只能大于0"}
+					//objData = {code: 123,msg: "数量只能大于0"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能大于0!')
 					}
 					return;
 				}
 				if((arr[i].useNum).indexOf('.') > -1){
-					objData = {code: 123,msg: "数量只能是整数"}
+				//	objData = {code: 123,msg: "数量只能是整数"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是整数')
 					}
@@ -384,7 +385,7 @@ function saveCont(){
 				}
 				if(parseInt($.trim(arr[i].useNum)) === parseFloat($.trim(arr[i].useNum))){
 				}else{
-					objData = {code: 123,msg: "数量只能是整数"}
+				//	objData = {code: 123,msg: "数量只能是整数"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是整数!')
 					}
@@ -405,10 +406,10 @@ function saveCont(){
 		obj.inHosCode = sessionStorage.getItem("inHosCode");
 
 		if($("#tableCent").find(".items") && $("#tableCent").find(".items").length >0){
-			// 对象是否为空
-			if (!isEmptyObject(objData) && $("#tableCent").find(".items")) {	
+			// 对象是否为空!isEmptyObject(objData) && 
+			if ($("#tableCent").find(".items")) {	
 				// 如果库存不足 或者其他问题 不能保存
-				if(objData.code == "200"){
+			//	if(objData.code == "200"){
 					$.ajax({
 						url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/supsUseHighAdd',
 						beforeSend: function(request) {
@@ -437,11 +438,11 @@ function saveCont(){
 							}
 						}
 					});
-				}else{
+			/* 	}else{
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning(objData.msg)
 					}
-				}
+				} */
 			}else{
 				if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 					toastr.warning("请输入")
@@ -482,21 +483,21 @@ function saveCont(){
 				return;
 			}else{
 				if(isNaN(Number($.trim(arrParam[i].useNum)))){
-					objData = {code: 123,msg: "数量只能是数字"}
+					//objData = {code: 123,msg: "数量只能是数字"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是数字!')
 					}
 					return;
 				}
 				if(Number($.trim(arrParam[i].useNum)) <=0 ){
-					objData = {code: 123,msg: "数量只能大于0"}
+				//	objData = {code: 123,msg: "数量只能大于0"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能大于0!')
 					}
 					return;
 				}
 				if((arrParam[i].useNum).indexOf('.') > -1){
-					objData = {code: 123,msg: "数量只能是整数"}
+				//	objData = {code: 123,msg: "数量只能是整数"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是整数')
 					}
@@ -504,7 +505,7 @@ function saveCont(){
 				}
 				if(parseInt($.trim(arrParam[i].useNum)) === parseFloat($.trim(arrParam[i].useNum))){
 				}else{
-					objData = {code: 123,msg: "数量只能是整数"}
+				//	objData = {code: 123,msg: "数量只能是整数"}
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是整数!')
 					}
@@ -530,10 +531,10 @@ function saveCont(){
 			return;
 		}else{
 			if($("#tableCent").find(".items") && $("#tableCent").find(".items").length >0){
-				// 对象是否为空
-				if (!isEmptyObject(objData) && $("#tableCent").find(".items")) {
+				// 对象是否为空!isEmptyObject(objData) && 
+				if ($("#tableCent").find(".items")) {
 					// 如果库存不足 或者其他问题 不能保存
-					if(objData.code == "200"){
+				//	if(objData.code == "200"){
 						$.ajax({
 							url:pathUrl()+'/spd-sys/admin/spd/spdWhSerial/supsUseHighAdd',
 							beforeSend: function(request) {
@@ -562,11 +563,11 @@ function saveCont(){
 								}
 							}
 						});
-					}else{
+					/* }else{
 						if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 							toastr.warning(objData.msg)
 						}
-					}
+					} */
 				} else{
 					if($('#toast-container').html() == null || $('#toast-container').html() == ''){
 						toastr.warning('数量只能是数字!请输入正确的主条形码和副条形码')
@@ -592,7 +593,7 @@ function clearCont(){
 	arrTmp = [];
 	arrObj = [];
 	nums =0;
-	objData = {};
+	//objData = {};
 	$("#tableCent").html("")
 	$('#scanCode').val("")
 	$('#secondCode').val("")

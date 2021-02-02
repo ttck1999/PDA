@@ -57,7 +57,7 @@ function seatchInfo(){
 				success:function(data) {
 					var dataTmp = data;
 					
-					dataTmp.hospCode = $("#hospName").html();
+					dataTmp.hospCode = hospObj.hospCode;
 					dataTmp.deptCode = deptCode;
 					dataTmp.useType = useType;
 					
@@ -79,7 +79,7 @@ function seatchInfo(){
 	}else {
 		var dataTmp = {};
 		
-		dataTmp.hospCode = $("#hospName").html();
+		dataTmp.hospCode = hospObj.hospCode;
 		dataTmp.deptCode = deptCode;
 		dataTmp.useType = useType;
 		sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
@@ -196,7 +196,7 @@ function seatchInfo(){
 // 		})
 		
 // }
-var hospList= [];
+var hospList= [],hospObj ={};
 $(function(){
   //医院
 	$.ajax({

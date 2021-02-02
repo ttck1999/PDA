@@ -52,11 +52,11 @@
 				<img class="pulsometer" src="../img/pulsometer.png" alt="">
 				<div class="memu-list">低值产品使用</div>
 			</div>
-			<div class="memu-item"  id="fastUse">
+		<!-- 	<div class="memu-item"  id="fastUse">
 				<div class="memu-copy"></div>
 				<img class="pulsometer" src="../img/fastUse.png" alt="">
 				<div class="memu-list">一键使用</div>
-			</div>
+			</div> -->
 		</div>
 	</body>
 	<script>
@@ -117,6 +117,7 @@
 					type:"post",
 					dataType:'json',
 					success:function(data) {
+						sessionStorage.setItem("hospCode", data[0].hospCode);
 						sessionStorage.setItem("hospName", data[0].hospName);
 						hospFlag = true;
 					},

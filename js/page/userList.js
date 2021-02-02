@@ -62,7 +62,7 @@ function seatchInfo(){
 				success:function(data) {
 					var dataTmp = data;
 					
-					dataTmp.hospCode = $("#hospName").html();
+					dataTmp.hospCode = sessionStorage.getItem("hospCode");
 					dataTmp.deptCode = deptCode;
 					dataTmp.whCode = whCode;
 					dataTmp.useType = useType;
@@ -85,7 +85,7 @@ function seatchInfo(){
 	}else {
 		var dataTmp = {};
 		
-		dataTmp.hospCode = $("#hospName").html();
+		dataTmp.hospCode = sessionStorage.getItem("hospCode");
 		dataTmp.deptCode = deptCode;
 		dataTmp.whCode = whCode;
 		dataTmp.useType = useType;
