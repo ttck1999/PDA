@@ -85,24 +85,38 @@ function ajaxData(scanCode,secondCode){
 							arrTmp.push(data.data[0].masterCode+"-"+data.data[0].secondCode);
 							arrObj.push(data.data[0])
 							nums+=1;
+							if(arry.length >0){
+								arry.push({
+									id:"#useNumTwo"+(nums-1),
+									val:'1'
+								})
+							}else{
+								for(var i=0;i<nums;i++){
+									arry.push({
+												id:"#useNumTwo"+i,
+									val:'1'
+										 })
+								}
+							}
+							
 							$("#tableCent").html('')
 							var str = ""
 							for(var i=0;i<nums;i++){
 								str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
 										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">主条形码：</span>'+
+									'<span style="display: inline-block;width: auto;">主条形码：</span>'+
 									'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].masterCode+'</span>'+
 										'</div>'+
 										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">副条形码：</span>'+
+									'<span style="display: inline-block;width: auto;">副条形码：</span>'+
 									'<span style="display: inline-block;" id="secondCodeTwo'+i+'">'+arrObj[i].secondCode+'</span>'+
 										'</div>'+
 										'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">名称：</span>'+
+									'<span style="display: inline-block;width: auto;">名称：</span>'+
 									'<span style="display: inline-block;" id="msNameTwo'+i+'">'+arrObj[i].msName+'</span>'+
 										'</div>'+
 								/* '<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">别名：</span>'+
+									'<span style="display: inline-block;width: auto;">别名：</span>'+
 									'<span style="display: inline-block;" id="msDisNameTwo'+i+'">'+arrObj[i].msDisName+'</span>'+
 								'</div>'+ */
 								'<div style="display: none;">'+
@@ -110,48 +124,48 @@ function ajaxData(scanCode,secondCode){
 									'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
 								'</div>'+
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
+									'<span style="display: inline-block;width: auto;">规格(特征、参数)：</span>'+
 									'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
 										'</div>'+
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="float: left;width: 75px;">生产企业：</span>'+
+									'<span style="float: left;width: auto;">生产企业：</span>'+
 									'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
 								'</div>'+
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="float: left;width: 75px;">供货商：</span>'+
+									'<span style="float: left;width: auto;">供货商：</span>'+
 									'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
 								'</div>'+
 								
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
+									'<span style="display: inline-block;width: auto;">注册证编号：</span>'+
 									'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
 								'</div>'+
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
+									'<span style="display: inline-block;width: auto;">型号、规格：</span>'+
 									'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
 								'</div>'+
 								
 										/* '<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">单价：</span>'+
+									'<span style="display: inline-block;width: auto;">单价：</span>'+
 									'<span style="display: inline-block;" id="costPriceTwo'+i+'">'+arrObj[i].costPrice+'</span>'+
 										'</div>'+ */
-								'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">批号：</span>'+
+								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+									'<span style="display: inline-block;width: auto;">批号：</span>'+
 									'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
 								'</div>'+
 								
 								'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
+									'<span style="display: inline-block;width: auto;">生产日期：</span>'+
 									'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
 								'</div>'+
 								'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
+									'<span style="display: inline-block;width: auto;">有效日期：</span>'+
 									'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
 								'</div>'+
 								
 								'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-									'<span style="display: inline-block;width: 75px;">数量：</span>'+
-									'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" id="useNumTwo'+i+'" autocomplete="off">'+
+									'<span style="display: inline-block;width: auto;">数量：</span>'+
+									'<input style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" id="useNumTwo'+i+'" value="'+arry[i].val+'" name="selectRadioNamePint" autocomplete="off">'+
 									'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
 								'</div>'+
         			'</div>'
@@ -183,20 +197,30 @@ function delPro(idx){
 	nums-=1;
 	arrTmp.splice(idx,1);
 	arrObj.splice(idx,1);
+	arry.splice(idx,1);
 	$("#tableCent").html('')
 	var str = ""
+	var tmpArr = []
+	for(var i = 0;i<arry.length;i++){
+		tmpArr.push({
+			id:"#useNumTwo"+i,
+			val:arry[i].val
+		})
+	}
+	arry = tmpArr;
+	
 	for(var i=0;i<nums;i++){
 		str+='<div id="items'+i+'" class="items" style="margin-top:10px;background: #ece7e7;padding: 5px 7px;">'+
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">主条形码：</span>'+
+			'<span style="display: inline-block;width: auto;">主条形码：</span>'+
 			'<span style="display: inline-block;" id="scanCodeTwo'+i+'">'+arrObj[i].masterCode+'</span>'+
 				'</div>'+
 				'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">副条形码：</span>'+
+			'<span style="display: inline-block;width: auto;">副条形码：</span>'+
 			'<span style="display: inline-block;" id="secondCodeTwo'+i+'">'+arrObj[i].secondCode+'</span>'+
 				'</div>'+
 				'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-			'<span style="display: inline-block;width: 75px;">名称：</span>'+
+			'<span style="display: inline-block;width: auto;">名称：</span>'+
 			'<span style="display: inline-block;" id="msNameTwo'+i+'">'+arrObj[i].msName+'</span>'+
 				'</div>'+
 			'<div style="display: none;">'+
@@ -204,43 +228,43 @@ function delPro(idx){
 				'<span type="hidden" style="display:none"  id="msCodeTwo'+i+'">'+arrObj[i].msCode+'</span>'+
 			'</div>'+
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 105px;">规格(特征、参数)：</span>'+
+				'<span style="display: inline-block;width: auto;">规格(特征、参数)：</span>'+
 				'<span style="display: inline-block;" id="specificationTwo'+i+'">'+arrObj[i].specification+'</span>'+
 					'</div>'+
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="float: left;width: 75px;">生产企业：</span>'+
+				'<span style="float: left;width: auto;">生产企业：</span>'+
 				'<span style="display: inline-block;" id="manufacturerTwo'+i+'">'+arrObj[i].manufacturer+'</span>'+
 			'</div>'+
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="float: left;width: 75px;">供货商：</span>'+
+				'<span style="float: left;width: auto;">供货商：</span>'+
 				'<span style="display: inline-block;" id="compNameTwo'+i+'">'+arrObj[i].compName+'</span>'+
 			'</div>'+
 			
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 75px;">注册证编号：</span>'+
+				'<span style="display: inline-block;width: auto;">注册证编号：</span>'+
 				'<span style="display: inline-block;" id="regNoTwo'+i+'">'+arrObj[i].regNo+'</span>'+
 			'</div>'+
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 75px;">型号、规格：</span>'+
+				'<span style="display: inline-block;width: auto;">型号、规格：</span>'+
 				'<span style="display: inline-block;" id="registerSpecsTwo'+i+'">'+arrObj[i].registerSpecs+'</span>'+
 			'</div>'+
-			'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 60px;">批号：</span>'+
+			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
+				'<span style="display: inline-block;width: auto;">批号：</span>'+
 				'<span style="display: inline-block;" id="produceNoTwo'+i+'">'+arrObj[i].produceNo+'</span>'+
 			'</div>'+
 			
 			'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 60px;">生产日期：</span>'+
+				'<span style="display: inline-block;width: auto;">生产日期：</span>'+
 				'<span style="display: inline-block;" id="produceDateTwo'+i+'">'+arrObj[i].produceDate+'</span>'+
 			'</div>'+
 			'<div style="display: inline-block;width: 50%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 60px;">有效日期：</span>'+
+				'<span style="display: inline-block;width: auto;">有效日期：</span>'+
 				'<span style="display: inline-block;" id="expDateTwo'+i+'">'+arrObj[i].expDate+'</span>'+
 			'</div>'+
 			
 			'<div style="display: inline-block;width: 100%;height: 0.25rem;line-height: 0.25rem;">'+
-				'<span style="display: inline-block;width: 75px;">数量：</span>'+
-				'<input value="1" style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" id="useNumTwo'+i+'" autocomplete="off">'+
+				'<span style="display: inline-block;width: auto;">数量：</span>'+
+				'<input style="width: 50px;border-radius: 5px;border: 1px solid #95B8E7;height: 23px;padding: 0 5px;font-size: 12px;background: #fff;" id="useNumTwo'+i+'" value="'+arry[i].val+'" name="selectRadioNamePint" autocomplete="off">'+
 				'<a href="javascript:void(0)" onClick="delPro('+i+')" style="color: #fff;background: #3471fa; display: inline-block; border: 1px solid #ccc;border-radius: 5px;line-height: 30px;text-decoration: none;text-align: center;padding: 0 10px;margin-left: 20px;">移除</a>'+
 			'</div>'+
 		'</div>'
@@ -251,6 +275,14 @@ function delPro(idx){
 		//numData($("#scanCodeTwo"+i).html(),$("#secondCodeTwo"+i).html(),"1")
 	} */
 }
+var arry = new Array();
+$(document).on("change",'input[name="selectRadioNamePint"]',function(e){
+	for(var i=0;i<arry.length;i++){
+		if(arry[i].id == "#"+e.target.id){
+			arry[i].val = $(this).val()
+		}
+	}
+})
 // 点击数量
 /* function useNumClick(nums){
 	// change事件请求多次的问题 先off change 再on change
@@ -592,6 +624,7 @@ function isEmptyObject(obj) {
 function clearCont(){
 	arrTmp = [];
 	arrObj = [];
+	arry = [];
 	nums =0;
 	//objData = {};
 	$("#tableCent").html("")
