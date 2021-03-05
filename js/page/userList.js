@@ -49,6 +49,13 @@ function seatchInfo(){
 	}else if($("#userPicker").html() == "报损"){
 		var useType = "2";
 	}
+	
+	if($("#pircePicker").html() == "否"){
+		var isFree = "2";
+	}else if($("#pircePicker").html() == "是"){
+		var isFree = "1";
+	}
+	
 	if($("#userPicker").html() == "正常使用"){
 		if($.trim($("#inHosCode").val()) != ""){
 			$.ajax({
@@ -66,6 +73,7 @@ function seatchInfo(){
 					dataTmp.deptCode = deptCode;
 					dataTmp.whCode = whCode;
 					dataTmp.useType = useType;
+					dataTmp.isFree = isFree;
 					
 					sessionStorage.setItem("parentObj", JSON.stringify(dataTmp)); 
 					sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
@@ -89,6 +97,7 @@ function seatchInfo(){
 		dataTmp.deptCode = deptCode;
 		dataTmp.whCode = whCode;
 		dataTmp.useType = useType;
+		dataTmp.isFree = isFree;
 		sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
 		sessionStorage.setItem("parentObj", JSON.stringify(dataTmp)); 
 		window.location.href="scanCode.html";

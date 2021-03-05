@@ -369,6 +369,7 @@ function saveCont(){
 	var deptCode = objTmp.deptCode;
 	var useType = objTmp.useType;
 	var whCode = objTmp.whCode;
+	var	isFree = objTmp.isFree;
 
 	// 损耗
 	if(useType == "2"){
@@ -494,6 +495,7 @@ function saveCont(){
 		obj.patientCardNo = $('#patientCardNo').html();
 		obj.patientSex = $('#patientSex').html();
 		obj.useType = useType;
+		obj.isFree = isFree;
 		for(var i=0;i<arrObj.length;i++){
 			arrParam.push({
 				hospCode: hospCode,

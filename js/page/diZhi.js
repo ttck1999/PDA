@@ -44,6 +44,13 @@ function seatchInfo(){
 		var useType = "3";
 	}
 	
+	
+	if($("#pircePicker").html() == "否"){
+		var isFree = "2";
+	}else if($("#pircePicker").html() == "是"){
+		var isFree = "1";
+	}
+	
 	if($("#userPicker").html() == "正常使用"){
 		if($.trim($("#inHosCode").val()) != ""){
 			$.ajax({
@@ -60,6 +67,7 @@ function seatchInfo(){
 					dataTmp.hospCode = hospObj.hospCode;
 					dataTmp.deptCode = deptCode;
 					dataTmp.useType = useType;
+					dataTmp.isFree = isFree;
 					
 					sessionStorage.setItem("parentObj", JSON.stringify(dataTmp)); 
 					sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
@@ -82,6 +90,7 @@ function seatchInfo(){
 		dataTmp.hospCode = hospObj.hospCode;
 		dataTmp.deptCode = deptCode;
 		dataTmp.useType = useType;
+		dataTmp.isFree = isFree;
 		sessionStorage.setItem("inHosCode", $.trim($("#inHosCode").val())); 
 		sessionStorage.setItem("parentObj", JSON.stringify(dataTmp)); 
 		window.location.href="diZhiScanCode.html";

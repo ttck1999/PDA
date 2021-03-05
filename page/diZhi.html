@@ -51,6 +51,10 @@
 				<button id='deptPicker' class="mui-btn mui-btn-block" type='button'></button>
 			</div>
 			<div class="diZhi-parent">
+				<span class="diZhi-parent-name">是否计费：</span>
+				<button id='pircePicker' class="mui-btn mui-btn-block" type='button'></button>
+			</div>
+			<div class="diZhi-parent">
 				<span class="diZhi-parent-name">使用情况：</span>
 				<button id='userPicker' class="mui-btn mui-btn-block" type='button'></button>
 				<span class="diZhi-parent-searchs" id="cha" onclick="seatchInfo()">查询</span>
@@ -130,6 +134,19 @@
 							infoMationButton.style.display = "none";
 							chaButton.style.display = "inline-block";
 						}
+					});
+				}, false);
+				
+				// 是否计费
+				var pirceList = ['否','是']
+				var pircePicker = new $.PopPicker();
+				pircePicker.setData(pirceList);
+				
+				var pircePickerButton = doc.getElementById('pircePicker');
+				pircePickerButton.innerText = pirceList[0];
+				pircePickerButton.addEventListener('tap', function(event) {
+					 pircePicker.show(function(items) {
+						pircePickerButton.innerText = items[0];
 					});
 				}, false);
 			})
