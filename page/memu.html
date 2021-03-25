@@ -37,11 +37,7 @@
 				<img class="pulsometer" src="../imgs/sao.png">
 				<div class="memu-list">扫码验收</div>
 			</div>
-		
-			<!--<div class="memu-item">
-				<img class="pulsometer" src="../img/parking_meter.png" alt="">
-				<div class="memu-list">科室退库</div>
-			</div> -->
+			
 			<div class="memu-item"  id="pulsometera">
 				<div class="memu-copy"></div>
 				<img class="pulsometer" src="../img/surgery.png" alt="">
@@ -51,6 +47,11 @@
 				<div class="memu-copy"></div>
 				<img class="pulsometer" src="../img/pulsometer.png" alt="">
 				<div class="memu-list">低值产品使用</div>
+			</div>
+			<div class="memu-item" id="batchUse">
+				<div class="memu-copy"></div>
+				<img class="pulsometer" src="../img/parking_meter.png" alt="">
+				<div class="memu-list">低值批量使用</div>
 			</div>
 		<!-- 	<div class="memu-item"  id="fastUse">
 				<div class="memu-copy"></div>
@@ -144,6 +145,10 @@
 				
 				$(".memu").on("tap","#diZhi",function(event){	
 					window.location.href="diZhi.html";	
+				});
+				
+				$(".memu").on("tap","#batchUse",function(event){
+					window.location.href="batchUse.html";	
 				});
 				
 				$(".memu").on("tap","#fastUse",function(event){

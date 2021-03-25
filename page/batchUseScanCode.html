@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0,user-scalable=no">
+		<title>批量使用</title>
+		
+		<link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/toastr.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="../css/mui.poppicker.css" type="text/css" charset="utf-8" />
+		
+		<script type="text/javascript" src="../js/rem.js"></script>
+		<script type="text/javascript" src="../js/jquery.js"></script>
+		<script type="text/javascript" src="../js/pathUrl.js"></script>
+		<script type="text/javascript" src="../js/toastr.js"></script>
+		<script type="text/javascript" src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../js/mui.poppicker.js"></script>
+		
+		<link rel="stylesheet" href="../css/page/batchUseScanCode.css" type="text/css" charset="utf-8" />
+		<script type="text/javascript" src="../js/page/batchUseScanCode.js"></script>
+		
+	</head>
+	<body style="background: #fff;">	
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">批量使用</div>
+			<!-- <div class="nvbt idoc" onclick="openDoc('about Document','about.html')"></div> -->
+		</header>
+		<div class="user-contents">
+			<div class="tops"></div>
+
+			<div id="pationsAll">
+				<div>
+					<!-- <div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">	
+							<span class="patCode">主条形码：</span>
+							<span class="patName" id="scanCodeTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div> -->
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">贴码标签：</span>
+							<span class="patName" id="secondCodeTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">	
+							<span class="patCode">名称：</span>
+							<span class="patName" id="msNameTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">规格(特征、参数)：</span>
+							<span class="patName" id="specificationTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>	
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">生产企业：</span>
+							<span class="patName" id="manufacturerTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">供货商：</span>
+							<span class="patName" id="compNameTwo"></span>	
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">	
+							<span class="patCode">注册证编号：</span>
+							<span class="patName" id="regNoTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">型号、规格：</span>
+							<span class="patName" id="registerSpecsTwo"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao" style="width: 100%;">
+							<span class="patCode">可用数量：</span>
+							<span class="patName" id="surplusNumTwo" style="color:red;font-size:14px;"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+					<div class="litileAll">
+						<div class="xiaoxiao">	
+							<span class="patCode" style="width: auto;">生产日期：</span>
+							<span class="patName" id="produceDateTwo" style="width: auto;"></span>
+						</div>
+						<div class="xiaoxiao">
+							<span class="patCode" style="width: auto;">有效日期：</span>
+							<span class="patName" id="expDateTwo" style="width: auto;"></span>
+						</div>
+						<div style="clear:both"></div>
+					</div>
+				</div>
+				<div class="litileAll" style="margin-top: 5px;" id="bad">
+					<div>
+						<span class="user-parent-name">报损数量：</span>
+						<input  class="user-parent-code" id="badMore" type="text" >
+					</div>
+				</div>
+				<div class="litileAll" style="margin-top: 5px;" id="inHosCodeBox">
+					<div>
+						<span class="user-parent-name">患者信息：</span>
+						<input  class="user-parent-code" id="inHosCode" type="text" >
+						<span class="user-parent-searchs" onclick="addInfo()">添加</span>
+					</div>
+				</div>
+			</div>
+			<!-- 扫主码和次码的数据 -->
+			<div id="tableCent" style="font-size: 0.12rem;">
+				
+			</div>
+			<div style="text-align: center;margin:20px 0">
+				<a href="javascript:void(0)" class="base-btn" onClick="saveCont()"style="margin-left: 10px;">确定</a>
+				<a href="javascript:void(0)" class="base-cancel" onClick="clearCont()" style="margin-left: 10px;">清空</a>	
+			</div>
+		</div>
+	</body>
+</html>

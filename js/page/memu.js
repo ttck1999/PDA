@@ -15,16 +15,18 @@ $(function(){
 	  contentType:"application/json",
 	  success: function(data){
 	   if(data.userType=="1"){
-			 //表示是医院权限
-	    document.getElementById("pulsometera").style.display = "none";
+			//表示是医院权限
+			document.getElementById("pulsometera").style.display = "none";
 			document.getElementById("diZhi").style.display = "none";
 			// document.getElementById("fastUse").style.display = "none";
-	    document.getElementById("oneShou").style.display = "block";
+			document.getElementById("batchUse").style.display = "none";
+			document.getElementById("oneShou").style.display = "block";
 	   }else if(data.userType=="0"){
-			 //表示是科室权限
-	    document.getElementById("oneShou").style.display = "none"; 
-	    document.getElementById("pulsometera").style.display = "block";  
+			//表示是科室权限
+			document.getElementById("oneShou").style.display = "none"; 
+			document.getElementById("pulsometera").style.display = "block";  
 			document.getElementById("diZhi").style.display = "block"; 
+			document.getElementById("batchUse").style.display = "block"; 
 			// document.getElementById("fastUse").style.display = "block";
 	   }
 	  }
